@@ -8,7 +8,7 @@ package com.MJR.bean.factory.config;
  */
 public class BeanDefinition {
 
-    Class beanClass;
+    private Class beanClass;
 
     public BeanDefinition(Class clazz){
         this.beanClass = clazz;
