@@ -11,20 +11,33 @@ import com.MJR.bean.factory.config.BeanDefinition;
  */
 public abstract class AbstarctAutowiredCapableBeanFactory extends AbstarctBeanFactory{
 
+    private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
+
     @Override
     protected Object createBean(String beanName, BeanDefinition beanDefinition) {
         return doCreateBean(beanName,beanDefinition);
     }
 
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {
-        Class beanClass = beanDefinition.getBeanClass();
         Object bean = null;
         try{
-            bean = beanClass.newInstance();
+            bean = instantiationBean(beanDefinition);
         }catch (Exception e){
             throw new BeanException("Instantiation of bean failed",e);
         }
         registeSingle(beanName,bean);
         return bean;
+    }
+
+    protected Object instantiationBean(BeanDefinition beanDefinition){
+        return getInstantiationStrategy().instantiate(beanDefinition);
+    }
+
+    public InstantiationStrategy getInstantiationStrategy(){
+        return instantiationStrategy;
+    }
+
+    public void setInstantiationStrategy(InstantiationStrategy instantiationStrategy){
+        this.instantiationStrategy = instantiationStrategy;
     }
 }

@@ -1,6 +1,7 @@
 package us.codecraft.tinyioc.bean;
 
 import com.MJR.bean.factory.config.BeanDefinition;
+import com.MJR.bean.factory.support.CglibBeanInstantiationStrategy;
 import com.MJR.bean.factory.support.DefaultListeableBeanFactory;
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ public class SingleBeanTest {
         DefaultListeableBeanFactory listeableBeanFactory = new DefaultListeableBeanFactory();
         BeanDefinition beanDefinition = new BeanDefinition(HelloService.class);
         listeableBeanFactory.registerBeanDefinition("helloService",beanDefinition);
+        listeableBeanFactory.setInstantiationStrategy(new CglibBeanInstantiationStrategy());
 
         HelloService helloService = (HelloService) listeableBeanFactory.getBean("helloService");
         helloService.hello();
